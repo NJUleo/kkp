@@ -6,13 +6,13 @@
     </p>
     <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
       <FormItem label="用户名" prop="username">
-        <Input type="text" v-model="formCustom.name" ></Input>
+        <Input type="text" v-model="formCustom.name" clearable />
       </FormItem>
       <FormItem label="密码" prop="passwd">
-        <Input type="password" v-model="formCustom.passwd"></Input>
+        <Input type="password" v-model="formCustom.passwd" clearable />
       </FormItem>
       <FormItem label="确认密码" prop="passwdCheck">
-        <Input type="password" v-model="formCustom.passwdCheck"></Input>
+        <Input type="password" v-model="formCustom.passwdCheck" clearable />
       </FormItem>
       <FormItem>
         <Button type="primary" @click="handleSubmit('formCustom')">Submit</Button>

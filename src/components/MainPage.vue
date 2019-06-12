@@ -14,13 +14,9 @@
               排片管理
             </MenuItem>
             <MenuItem name="3">
-              <Icon type="ios-analytics"></Icon>
-              Item 3
-            </MenuItem>
-            <MenuItem name="4">
-              <Icon type="ios-paper"></Icon>
-              Item 4
-            </MenuItem>
+              <Icon type="home"></Icon>
+                用户中心
+            </MenuItem>  
           </div>
         </Menu>
       </Header>
