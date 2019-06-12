@@ -8,5 +8,5 @@ export default {
           methods: 'Get',
           params:params
         })
-      },
+    },
 }

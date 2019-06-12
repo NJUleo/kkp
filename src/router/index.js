@@ -38,9 +38,14 @@ export default new Router({
           component: () => import('../views/UserMovieDetail.vue')
         },
         {
+          path: '/UserCheckSchedule',
+          name: 'UserCheckSchedule',
+          component: () => import('../views/UserCheckSchedule.vue')
+        },
+        {
           path: '/UserBuyTicket',
           name: 'UserBuyTicket',
-          component: () => import('../views/UserCheckSchedule.vue')
+          component: () => import('../views/UserBuyTicket.vue')
         }
       ]
     },
