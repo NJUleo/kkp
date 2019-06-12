@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Register from '@/views/Register'
-import UserMain from '@/views/UserMain'
-import UserLogin from '@/views/UserLogin'
+import Register from '../views/Register'
+import UserMain from '../views/UserMain'
+import UserLogin from '../views/UserLogin'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -17,16 +17,12 @@ export default new Router({
       path: '/Register',
       name: 'Register',
       component: Register
-    },{
+    },
+    {
       path:'/UserMain',
       name:'/UserMain',
       component: UserMain,
       children: [
-        {
-          path: '/Register',
-          name: 'Register',
-          component: () => import('../views/Register.vue')
-        },
         {
           path: '/UserMovieList',
           name: 'UserMovieList',
@@ -41,7 +37,22 @@ export default new Router({
           path: '/UserBuyTicket',
           name: 'UserBuyTicket',
           component: () => import('../views/UserBuyTicket.vue')
-        }
+        },
+        {
+          path: '/UserVipCardCheck',
+          name: 'UserVipCardCheck',
+          component:  () => import('../views/UserVipCardCheck.vue')
+        },
+        {
+          path: '/UserCouponCheck',
+          name: 'UserCouponCheck',
+          component:  () => import('../views/UserCouponCheck.vue')
+        },
+        {
+          path: '/UserOrderCheck',
+          name: 'UserOrderCheck',
+          component:  () => import('../views/UserOrderCheck.vue')
+        },
       ]
     },
   ]

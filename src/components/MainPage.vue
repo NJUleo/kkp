@@ -1,116 +1,71 @@
 <template>
-  <div  class="layout">
-    <Layout>
-      <Header style="margin-top: 0" >
-        <Menu mode="horizontal" theme="dark" active-name="1" @on-select="onSelect">
-          <div class="layout-logo"></div>
-          <div class="layout-nav">
-            <MenuItem name="1">
-              <Icon type="ios-navigate"></Icon>
-              电影管理
-            </MenuItem>
-            <MenuItem name="2">
-              <Icon type="ios-keypad"></Icon>
-              排片管理
-            </MenuItem>
-            <MenuItem name="3">
-              <Icon type="home"></Icon>
-                用户中心
-            </MenuItem>  
-          </div>
-        </Menu>
-      </Header>
-      <Layout :style="{padding: '0 50px'}">
-        <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']" @on-select="onSelect">
-            <Submenu name="1">
-              <template slot="title">
-                <Icon type="ios-navigate"></Icon>
-                电影管理
-              </template>
-              <MenuItem name="1-1">新增电影</MenuItem>
-              <MenuItem name="1-2">修改信息</MenuItem>
-              <MenuItem name="1-3">删除电影</MenuItem>
-            </Submenu>
-            <Submenu name="2">
-              <template slot="title">
-                <Icon type="ios-keypad"></Icon>
-                排片管理
-              </template>
-              <MenuItem name="2-1">新增排片</MenuItem>
-              <MenuItem name="2-2">修改排片</MenuItem>
-            </Submenu>
-            <Submenu name="3">
-              <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                Item 3
-              </template>
-              <MenuItem name="3-1">Option 1</MenuItem>
-              <MenuItem name="3-2">Option 2</MenuItem>
-            </Submenu>
-          </Menu>
-        </Sider>
-        <Content>
-          <router-view></router-view>
-        </Content>
+  <Layout>
+      <div class="logo-header">
+        <h1 style="text-align: left;float: left;  ">破产影院</h1>
+        <Input style="width: 30%;text-align: right;margin-left: 50%" search placeholder="搜你感兴趣的电影" />
+      </div>
 
-      </Layout>
-      <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
-    </Layout>
-  </div>
+    <Menu mode="horizontal" :theme="theme" active-name="1" @on-select="onSelect">
+      <MenuItem name="1">
+        <Icon type="ios-paper" />
+        首页
+      </MenuItem>
+      <MenuItem name="2">
+        <Icon type="ios-people" />
+        电影
+      </MenuItem>
+      <MenuItem name="2">
+        <Icon type="ios-people" />
+        票房
+      </MenuItem>
+      <Submenu name="3" style="margin-left: 50%">
+        <template slot="title">
+          <Icon type="ios-people" />
+          用户中心
+        </template>
+        <MenuGroup title="订单">
+          <MenuItem name="3-1">我的订单</MenuItem>
+        </MenuGroup>
+        <MenuGroup title="卡包">
+          <MenuItem name="3-2">会员卡</MenuItem>
+          <MenuItem name="3-3">优惠券</MenuItem>
+        </MenuGroup>
+      </Submenu>
+    </Menu>
+  </Layout>
 </template>
-
-<style scoped>
-  .layout {
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .layout-logo {
-    width: 100px;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 15px;
-    left: 20px;
-  }
-
-  .layout-nav {
-    width: 420px;
-    margin: 0 auto;
-    margin-right: 20px;
-  }
-
-  .layout-footer-center {
-    text-align: center;
-  }
-</style>
 
 <script>
   export default {
-    name: 'MainPage',
+    data() {
+      return {
+        theme: 'primary',
+      }
+    },
     methods: {
       onSelect(name) {
-        switch(name) {
-          case '1-1':
-            this.$router.push({ path: '/AdminMovieManage' });
+        switch (name) {
+          case '1':
+            this.$router.push({path: '/AdminMovieManage'});
             break;
-          case '2-1':
-            this.$router.push({ path: '/admin/student' });
+          case '2':
+            this.$router.push({path: '/UserMovieList'});
             break;
-          case '2-2':
-            this.$router.push({ path: '/admin/tutor' });
+          case '3-1':
+            this.$router.push({path: '/UserOrderCheck'});
+            break;
+          case '3-2':
+            this.$router.push({path: '/UserVipCardCheck'});
+            break;
+          case '3-3':
+            this.$router.push({path: '/UserCouponCheck'});
             break;
         }
       }
     }
   }
 </script>
-
 <style>
 </style>
+
+
