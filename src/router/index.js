@@ -40,7 +40,7 @@ export default new Router({
         {
           path: '/UserBuyTicket',
           name: 'UserBuyTicket',
-          component: () => import('../views/UserBuyTicket.vue')
+          component: () => import('../views/UserCheckSchedule.vue')
         }
       ]
     },
