@@ -15,6 +15,9 @@
             <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </FormItem>
         <FormItem>
+          <Button @click="toRegister" type="text">还没有账号？点此注册！</Button>
+        </FormItem>
+        <FormItem>
           <Button type="primary" @click="handleSubmit('formInline')" onclick="">登录</Button>
         </FormItem>
       </Form>
@@ -46,7 +49,7 @@
     },
     methods: {
       handleSubmit(name) {
-        console.log(this.$refs)
+        console.log(this.$refs);
         this.$refs[name].validate((valid) => {
           if (!valid) {
             this.$Message.error('账号或密码格式错误!');
@@ -70,6 +73,9 @@
               console.log(error);
             });
 
+      },
+      toRegister(){
+        this.$router.push({path:'/Register'});
       }
     }
   }

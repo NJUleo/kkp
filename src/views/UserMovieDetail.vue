@@ -22,7 +22,7 @@
         </Row>
         <Row>
           <i-col span="4">
-            <div style="text-align:center; float: center; margin-right: 5px; margin-top: 5px">
+            <div style="text-align:center; margin-right: 5px; margin-top: 5px">
             <img style="width: 150px;height: 200px; " :src=movieDetail.posterUrl>
             </div>
           </i-col>
