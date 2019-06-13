@@ -1,36 +1,12 @@
-<<<<<<< HEAD
-<template>
-    <Menu mode="horizontal" active-key="1">
-    </Menu>
-</template>
-
-<script>
-import userApi from "../api/UserApi"
-export default {
-    name: "UserBuyTicket",
-    data(){
-        return{
-
-        }
-    },
-    methods: {
-
-    },
-    created(){
-
-    }
-}
-</script>
-
-=======
 <template>
     <div>
-        <div v-for="seatRow in seatRowList" :key="seatRow.rowNum">
-            rowNum:{{seatRow.rowNum}}
-            <i-col v-for="seat in seatRow.seatRow" :key="seat.seatNum" span="4">
-                {{seat.seatNum}}
-            </i-col>
-        </div>
+        <table v-for="seatRow in seatRowList" :key="seatRow.rowNum">
+            <tr>
+                <th v-for="seat in seatRow.seatRow" :key="seat.seatNum" >
+                    <img :src="seatState(seat)" @click="chooseSeat(seat)"/>
+                </th>
+            </tr>
+        </table>
     </div>
 </template>
 
@@ -40,22 +16,30 @@ export default {
     name: "UserBuyTicket",
     data(){
         return{
+            colNum:2,
            seatRowList:[
                {
                    rowNum:0,
                    seatRow:[
                        {
-                           seatNum:0,
-                           avaliable:true
+                           row:0,
+                           col:0,
+                           avaliable:true,
+                           chosen:false
                        },{
-                           seatNum:1,
-                           avaliable:true
+                           row:0,
+                           col:1,
+                           avaliable:true,
+                           chosen:false,
                        },{
-                           seatNum:2,
-                           avaliable:true
+                           row:0,
+                           col:2,
+                           avaliable:true,
+                           chosen:true,
                        },{
                            seatNum:3,
-                           avaliable:true
+                           avaliable:true,
+                           chosen:false,
                        }
                    ]
                },{
@@ -63,16 +47,20 @@ export default {
                    seatRow:[
                        {
                            seatNum:0,
-                           avaliable:true
+                           avaliable:false,
+                           chosen:false,
                        },{
                            seatNum:1,
-                           avaliable:true
+                           avaliable:true,
+                           chosen:false,
                        },{
                            seatNum:2,
-                           avaliable:true
+                           avaliable:true,
+                           chosen:false,
                        },{
                            seatNum:3,
-                           avaliable:true
+                           avaliable:true,
+                           chosen:false,
                        }
                    ]
                },{
@@ -114,7 +102,23 @@ export default {
         }
     },
     methods: {
-
+        seatState(seat){
+            if(seat.avaliable){
+                if(seat.chosen){
+                    return "../../static/seatChosen.png"
+                }else{
+                    return "../../static/seatChoose.png";
+                }
+            }else{
+                return "../../static/seatLock.png";
+            }
+        },
+        chooseSeat(seat){
+            if(seat.avaliable){
+                seat.chosen = !seat.chosen;
+            }
+            console.log("cnm");
+        }
     },
     created(){
         
@@ -122,4 +126,3 @@ export default {
 }
 </script>
 
->>>>>>> master

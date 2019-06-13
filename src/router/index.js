@@ -19,6 +19,11 @@ export default new Router({
       component: Register
     },
     {
+      path :'/UserMovieList2',
+      name:'UserMovieList2',
+      component:() => import('../views/UserBuyTicket.vue')
+    },
+    {
       path:'/UserMain',
       name:'/UserMain',
       component: UserMain,
