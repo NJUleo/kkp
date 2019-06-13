@@ -100,8 +100,12 @@
         return des.length>160?des.slice(0,160)+'......':des;
       },
       renderMovieDetail:function (movieId) {
-        localStorage.setItem("movieDetail",JSON.stringify(this.movieList[movieId]));
-        this.$router.push({path:'UserMovieDetail'})
+        for(movie in this.movieList){
+          if(movie.id == movieId){
+            localStorage.setItem("movieDetail",JSON.stringify(movie));
+            this.$router.push({path:'UserMovieDetail'})
+          }
+        }
       }
     },
 

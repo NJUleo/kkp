@@ -74,6 +74,12 @@ export default {
     methods: {
         buyTicketById(scheduleId){
             console.log(scheduleId);
+            for(var schedule in this.scheduleList){
+                if(schedule.id == scheduleId){
+                    console.log(this.scheduleListp[i]);
+                    localStorage.setItem("scheduleChosen",JSON.stringify(schedule));
+                }
+            }
         }
     },
     created(){
