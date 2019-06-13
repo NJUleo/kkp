@@ -1,7 +1,7 @@
 <template>
     <MainPage>
     </MainPage>
-  
+
 </template>
 
 <script>
