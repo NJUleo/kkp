@@ -1,13 +1,14 @@
 import request from "../utils/request"
-import { get,post } from '../utils/request'
+import axios from "axios"
 
 export default {
-    VerifyAudience(params) {
-        return request({
-          url: '/VerifyAudience',
-          methods: 'Get',
-          params:params
-        })
-    },
-    
+  VerifyAudience(data) {
+    axios.post ("http://localhost:8080/VerifyAudience", data)
+    // return request({
+    //   url: '/VerifyAudience',
+    //   methods: 'POST',
+    //   data: data
+    // })
+  },
+
 }
