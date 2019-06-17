@@ -47,22 +47,22 @@
       onSelect(name) {
         switch (name) {
           case '0':
-            this.$router.push({path: '/UserMain/'});
+            this.$router.push({path: '/Main/'});
             break;
           case '1':
-            this.$router.push({path: '/UserMain/MovieList'});
+            this.$router.push({path: '/Main/MovieList'});
             break;
           case '2':
-            this.$router.push({path: '/UserMain/nmsl'});
+            this.$router.push({path: '/Main/nmsl'});
             break;
           case '3-1':
-            this.$router.push({path: '/UserMain/OrderCheck'});
+            this.$router.push({path: '/Main/OrderCheck'});
             break;
           case '3-2':
-            this.$router.push({path: '/UserMain/VipCardCheck'});
+            this.$router.push({path: '/Main/VipCardCheck'});
             break;
           case '3-3':
-            this.$router.push({path: '/UserMain/CouponCheck'});
+            this.$router.push({path: '/Main/CouponCheck'});
             break;
         }
       }
