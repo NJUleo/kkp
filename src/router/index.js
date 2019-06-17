@@ -19,50 +19,45 @@ export default new Router({
       component: Register
     },
     {
-      path :'/UserMovieList2',
-      name:'UserMovieList2',
-      component:() => import('../views/UserBuyTicket.vue')
-    },
-    {
       path:'/UserMain',
       name:'/UserMain',
       component: UserMain,
       children: [
         {
-          path: '/UserMovieList',
+          path: '/UserMain/UserMovieList',
           name: 'UserMovieList',
           component: () => import('../views/UserMovieList.vue')
         },
-        // {
-        //   path: '/UserMovieDetail',
-        //   name: 'UserMovieDetail',
-        //   component: () => import('../views/UserMovieDetail.vue')
-        // },
-        // {
-        //   path: '/UserCheckSchedule',
-        //   name: 'UserCheckSchedule',
-        //   component: () => import('../views/UserCheckSchedule.vue')
-        // },
-        // {
-        //   path: '/UserBuyTicket',
-        //   name: 'UserBuyTicket',
-        //   component: () => import('../views/UserBuyTicket.vue')
-        // },
-        // {
-        //   path: '/UserVipCardCheck',
-        //   name: 'UserVipCardCheck',
-        //   component:  () => import('../views/UserVipCardCheck.vue')
-        // },
-        // {
-        //   path: '/UserCouponCheck',
-        //   name: 'UserCouponCheck',
-        //   component:  () => import('../views/UserCouponCheck.vue')
-        // },
-        // {
-        //   path: '/UserOrderCheck',
-        //   name: 'UserOrderCheck',
-        //   component:  () => import('../views/UserOrderCheck.vue')
-        // },
+        {
+          path: '/UserMovieDetail',
+          name: 'UserMovieDetail',
+          component: () => import('../views/UserMovieDetail.vue')
+        },
+        {
+          path: '/UserCheckSchedule',
+          name: 'UserCheckSchedule',
+          component: () => import('../views/UserCheckSchedule.vue')
+        },
+        {
+          path: '/UserBuyTicket',
+          name: 'UserBuyTicket',
+          component: () => import('../views/UserBuyTicket.vue')
+        },
+        {
+          path: '/UserVipCardCheck',
+          name: 'UserVipCardCheck',
+          component:  () => import('../views/UserVipCardCheck.vue')
+        },
+        {
+          path: '/UserCouponCheck',
+          name: 'UserCouponCheck',
+          component:  () => import('../views/UserCouponCheck.vue')
+        },
+        {
+          path: '/UserOrderCheck',
+          name: 'UserOrderCheck',
+          component:  () => import('../views/UserOrderCheck.vue')
+        },
       ]
     },
   ]
