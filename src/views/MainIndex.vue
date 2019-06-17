@@ -2,7 +2,7 @@
 
 <script>
 export default {
-  name: "CouponCheck"
+  name: "MainIndex"
 };
 </script>
 

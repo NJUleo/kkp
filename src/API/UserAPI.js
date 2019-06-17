@@ -20,6 +20,12 @@ const api = {
       method: 'post',
       data
     })
+  },
+  GetMovieList: () => {
+    return request({
+      url: '/GetMovieList',
+      method: 'get'
+    })
   }
 }
 
