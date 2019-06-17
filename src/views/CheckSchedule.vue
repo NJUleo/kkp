@@ -24,7 +24,7 @@
 <script>
 import userApi from "../api/UserApi"
 export default {
-    name: "UserCheckSchedule",
+    name: "CheckSchedule",
     data(){
         return{
             scheduleList:[

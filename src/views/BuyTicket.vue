@@ -27,7 +27,7 @@
 <script>
 import userApi from "../api/UserApi"
 export default {
-    name: "UserBuyTicket",
+    name: "BuyTicket",
     data(){
         return{
             seatChosen:[],

@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "UserOrderCheck"
+        name: "CouponCheck"
     }
 </script>
 

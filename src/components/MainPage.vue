@@ -6,11 +6,11 @@
       </div>
 
     <Menu mode="horizontal" :theme="theme" active-name="1" @on-select="onSelect">
-      <MenuItem name="1">
+      <MenuItem name="0">
         <Icon type="ios-paper" />
         首页
       </MenuItem>
-      <MenuItem name="2">
+      <MenuItem name="1">
         <Icon type="ios-people" />
         电影
       </MenuItem>
@@ -46,20 +46,23 @@
     methods: {
       onSelect(name) {
         switch (name) {
+          case '0':
+            this.$router.push({path: '/UserMain/'});
+            break;
           case '1':
-            this.$router.push({path: '/AdminMovieManage'});
+            this.$router.push({path: '/UserMain/MovieList'});
             break;
           case '2':
-            this.$router.push({path: '/UserMovieList'});
+            this.$router.push({path: '/UserMain/nmsl'});
             break;
           case '3-1':
-            this.$router.push({path: '/UserOrderCheck'});
+            this.$router.push({path: '/UserMain/OrderCheck'});
             break;
           case '3-2':
-            this.$router.push({path: '/UserVipCardCheck'});
+            this.$router.push({path: '/UserMain/VipCardCheck'});
             break;
           case '3-3':
-            this.$router.push({path: '/UserCouponCheck'});
+            this.$router.push({path: '/UserMain/CouponCheck'});
             break;
         }
       }

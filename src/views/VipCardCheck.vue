@@ -4,7 +4,7 @@
 
 <script>
     export default {
-        name: "UserCouponCheck"
+        name: "VipCardCheck"
     }
 </script>
 

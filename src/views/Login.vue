@@ -25,7 +25,7 @@
 <script>
 import userApi from "../api/UserApi";
 export default {
-  name: "UserLogin",
+  name: "Login",
   data() {
     return {
       formInline: {
@@ -75,7 +75,7 @@ export default {
       userApi
         .VerifyAudience(aud)
         .then(res => {
-          _this.$router.push({ path: "/UserMain/UserMovieList" });
+          _this.$router.push({ path: "/UserMain/" });
           this.$Message.success("登陆成功!");
         })
         .catch(err => {

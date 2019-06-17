@@ -50,7 +50,7 @@
   //import echarts from "echarts"
 
     export default {
-        name: "UserMovieDetail",
+        name: "MovieDetail",
       created() {
           console.log(this.movieDetail);
         this.movieDetail = JSON.parse(localStorage.getItem('movieDetail'));

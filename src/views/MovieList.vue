@@ -51,7 +51,7 @@
   import userApi from '../api/UserApi'
 
   export default {
-    name: "UserMovieList",
+    name: "MovieList",
     data() {
       return {
         movieList: [
