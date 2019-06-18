@@ -4,7 +4,7 @@
       <p slot="title">影厅：{{schedule.hallId}}</p>
       <table v-for="seatRow in seatRowList" :key="seatRow.rowNum" style="margin: 0 auto">
         <tr>
-          <th v-for="seat in seatRow.seatRow" :key="seat.seatNum">
+          <th v-for="seat in seatRow.seatRow" :key="seat.col">
             <img :src="seatState(seat)" @click="chooseSeat(seat)">
           </th>
         </tr>
@@ -12,7 +12,7 @@
     </Card>
     <Card>
       <p>目前已经选了{{seatChosen.length}}</p>
-      <p v-for="seat in seatChosen" :key="seat.row">{{seat.row}}排 {{seat.col}}列</p>
+      <p v-for="seat in seatChosen" :key="seat.row * 100 + seat.col">{{seat.row}}排 {{seat.col}}列</p>
       <i-button v-bind:disabled="!haveChosen()">下单</i-button>
     </Card>
   </div>
@@ -96,48 +96,6 @@ export default {
               chosen: false
             }
           ]
-        },
-        {
-          rowNum: 2,
-          seatRow: [
-            {
-              seatNum: 0,
-              avaliable: true
-            },
-            {
-              seatNum: 1,
-              avaliable: true
-            },
-            {
-              seatNum: 2,
-              avaliable: true
-            },
-            {
-              seatNum: 3,
-              avaliable: true
-            }
-          ]
-        },
-        {
-          rowNum: 3,
-          seatRow: [
-            {
-              seatNum: 0,
-              avaliable: true
-            },
-            {
-              seatNum: 1,
-              avaliable: true
-            },
-            {
-              seatNum: 2,
-              avaliable: true
-            },
-            {
-              seatNum: 3,
-              avaliable: true
-            }
-          ]
         }
       ]
     };
@@ -156,21 +114,19 @@ export default {
     },
     chooseSeat(seat) {
       if (seat.avaliable) {
+        console.log(this.seatChosen);
         if (!seat.chosen) {
           this.seatChosen.push(seat);
         } else {
-          for (var i = 0; i < this.seatChosen.length; i++) {
-            if (
-              this.seatChosen[i].Row == seat.Row &&
-              this.seatChosen[i].col == seat.col
-            ) {
-              this.seatChosen.splice(i, 1);
-            }
-          }
+          this.seatChosen.splice(
+            this.seatChosen.findIndex(s => {
+              return s.row == seat.row && s.col == seat.col;
+            }),
+            1
+          );
         }
         seat.chosen = !seat.chosen;
       }
-      console.log("cnm");
     },
     haveChosen() {
       if (this.seatChosen.length != 0) {
@@ -181,9 +137,14 @@ export default {
     }
   },
   created() {
-    console.log(this.schedule);
-    //this.schedule = JSON.parse(localStorage.getItem('scheduleChosen'));
-    console.log(this.schedule);
+    this.schedule = JSON.parse(localStorage.getItem("scheduleDetail"));
+    let seats = this.schedule.seatList;
+    console.log(seats);
+    let seatRows = [];
+    seats.forEach(s => {
+      if (seatRows[s.row] == null) seatRows[s.row] = [];
+      seatRows[s.row].append(s);
+    });
   }
 };
 </script>

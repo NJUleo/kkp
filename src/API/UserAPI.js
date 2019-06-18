@@ -47,6 +47,19 @@ const api = {
       method: 'get',
       params
     })
+  },
+  GetScheduleListByMovieId: (params) => {
+    return request({
+      url: '/GetScheduleListByMovieId',
+      method: 'get',
+      params
+    })
+  },
+  GetHallList: () => {
+    return request({
+      url: 'GetHallList',
+      method: 'get'
+    })
   }
 }
 
