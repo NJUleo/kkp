@@ -19,7 +19,7 @@
       <MenuItem name="2">
         <Icon type="ios-people"/>票房
       </MenuItem>
-      <Submenu name="3" style="margin-left: 50%">
+      <Submenu name="3" style="float: right;">
         <template slot="title">
           <Icon type="ios-people"/>用户中心
         </template>
@@ -56,7 +56,7 @@ export default {
           this.$router.push({ path: "/Main/nmsl" });
           break;
         case "3-1":
-          this.$router.push({ path: "/Main/OrderCheck" });
+          this.$router.push({ path: "/Main/MyOrder" });
           break;
         case "3-2":
           this.$router.push({ path: "/Main/VipCardCheck" });

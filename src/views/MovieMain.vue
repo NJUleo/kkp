@@ -1,60 +1,60 @@
 <template>
-  <div class="lay-out">
-    <Row>
-      <Carousel autoplay height="auto">
-        <div v-for="movie in movieTopList" :key="movie.id">
-          <Carousel-item>
-            <div class="demo-carousel">
-              <img style="width: 300px;height: 400px;" :src="movie.posterUrl">
-            </div>
-          </Carousel-item>
-        </div>
-      </Carousel>
-    </Row>
-    <Row>
-      <i-col span="24">
-        <Layout :style="{padding: '0 20px'}">
-          <Content :style="{padding: '24px ', minHeight: '280px', background: '#fff'}">
-            <div v-for="movie in movieList" :key="movie.id">
-              <Card style="height: 220px; margin-bottom: 10px">
-                <p slot="title" style="text-align: left; height: 25px">
-                  <Icon type="ios-film-outline"></Icon>
-                  {{movie.name}}
-                  <Tag :color="statusColor(movie.status)">{{statusParser(movie.status)}}</Tag>
+  <div>
+    <Carousel autoplay height="auto">
+      <div v-for="movie in movieTopList" :key="movie.id">
+        <Carousel-item>
+          <div class="demo-carousel">
+            <img style="width: 800px;height: 600px;" :src="movie.posterUrl">
+          </div>
+        </Carousel-item>
+      </div>
+    </Carousel>
+    <div style="padding: 24px; minHeight: 280px; background: #fff;">
+      <div v-for="movie in movieList" :key="movie.id">
+        <Card style="margin-bottom: 10px">
+          <div
+            slot="title"
+            style="display: flex; flex-direction:row; align-items: center; text-align: left; height: 40px"
+          >
+            <Icon type="ios-film-outline"></Icon>
+            <div style="margin-left: 10px; margin-right: 10px;">{{movie.name}}</div>
+            <Tag :color="statusColor(movie.status)">{{statusParser(movie.status)}}</Tag>
+            <Button
+              type="primary"
+              @click="onMovieLike(movie.id)"
+              slot="extra"
+              style="margin-right: 20px; margin-left:auto;"
+            >{{movie.isLike?"已":""}}想看</Button>
+            <Button type="primary" @click="renderMovieDetail(movie.id)" slot="extra">详情</Button>
+          </div>
+
+          <Row type="flex">
+            <i-col span="5">
+              <div style="text-align:left; height: 130px; margin-right: 5px">
+                <img style="width: 120px;height: 130px;" :src="movie.posterUrl">
+              </div>
+            </i-col>
+            <i-col span="19">
+              <div style="text-align: justify;">
+                <p>{{descriptionCutter(movie.description)}}</p>
+                <p>
+                  <strong>类型：</strong>
+                  {{movie.movieTypeList.toString().replace(/,/g,'/')}}
                 </p>
-                <Button
-                  type="primary"
-                  @click="onMovieLike(movie.id)"
-                  slot="extra"
-                  style="margin-right: 20px;"
-                >{{movie.isLike?"已":""}}想看</Button>
-                <Button type="primary" @click="renderMovieDetail(movie.id)" slot="extra">详情</Button>
-                <div
-                  style="text-align:left;float: left; width: 100px;height: 130px; margin-right: 5px"
-                >
-                  <img style="width: 100px;height: 130px;" :src="movie.posterUrl">
-                </div>
-                <div style="width: 750px; text-align: justify;">
-                  <p>{{descriptionCutter(movie.description)}}</p>
-                  <p>
-                    <strong>类型：</strong>
-                    {{movie.movieTypeList.toString().replace(/,/g,'/')}}
-                  </p>
-                  <p>
-                    <strong>导演：</strong>
-                    {{movie.director}}
-                  </p>
-                  <p>
-                    <strong>主演：</strong>
-                    {{movie.starringList.toString().replace(/,/g,'/')}}
-                  </p>
-                </div>
-              </Card>
-            </div>
-          </Content>
-        </Layout>
-      </i-col>
-    </Row>
+                <p>
+                  <strong>导演：</strong>
+                  {{movie.director}}
+                </p>
+                <p>
+                  <strong>主演：</strong>
+                  {{movie.starringList.toString().replace(/,/g,'/')}}
+                </p>
+              </div>
+            </i-col>
+          </Row>
+        </Card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -65,40 +65,8 @@ export default {
   name: "MovieMain",
   data() {
     return {
-      movieTopList: [
-        {
-          id: "1",
-          name: "夏目友人帐",
-          description:
-            "在人与妖怪之间过着忙碌日子的夏目，偶然与以前的同学结城重逢，由此回忆起了被妖怪缠身的苦涩记忆。此时，夏目认识了在归还名字的妖怪记忆中出现的女性·津村容莉枝。和玲子相识的她，现在和独子椋雄一同过着平稳的生活。夏目通过与他们的交流，心境也变得平和。但这对母子居住的城镇，却似乎潜伏着神秘的妖怪。在调查此事归来后，寄生于猫咪老师身体的“妖之种”，在藤原家的庭院中，一夜之间就长成树结出果实。而吃掉了与自己形状相似果实的猫咪老师，竟然分裂成了3个",
-          posterUrl: "../../static/haha.jpg",
-          director: "大森贵弘 /伊藤秀樹",
-          starringList: ["神谷浩史", "井上和彦", "高良健吾", "小林沙苗"],
-          movieTypeList: ["动画", "cnm"],
-          country: "日本",
-          language: "日语",
-          startDate: "2019/4/4",
-          duration: "90",
-          status: 1
-        }
-      ],
-      movieList: [
-        {
-          id: "1",
-          name: "夏目友人帐",
-          description:
-            "在人与妖怪之间过着忙碌日子的夏目，偶然与以前的同学结城重逢，由此回忆起了被妖怪缠身的苦涩记忆。此时，夏目认识了在归还名字的妖怪记忆中出现的女性·津村容莉枝。和玲子相识的她，现在和独子椋雄一同过着平稳的生活。夏目通过与他们的交流，心境也变得平和。但这对母子居住的城镇，却似乎潜伏着神秘的妖怪。在调查此事归来后，寄生于猫咪老师身体的“妖之种”，在藤原家的庭院中，一夜之间就长成树结出果实。而吃掉了与自己形状相似果实的猫咪老师，竟然分裂成了3个",
-          posterUrl: "../../static/haha.jpg",
-          director: "大森贵弘 /伊藤秀樹",
-          starringList: ["神谷浩史", "井上和彦", "高良健吾", "小林沙苗"],
-          movieTypeList: ["动画", "cnm"],
-          country: "日本",
-          language: "日语",
-          startDate: "2019/4/4",
-          duration: "90",
-          status: 1
-        }
-      ]
+      movieTopList: [],
+      movieList: []
     };
   },
   methods: {

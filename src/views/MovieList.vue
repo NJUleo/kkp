@@ -1,49 +1,49 @@
 <template>
-  <div class="lay-out">
-    <Row>
-      <i-col span="24">
-        <Layout :style="{padding: '0 20px'}">
-          <Content :style="{padding: '24px ', minHeight: '280px', background: '#fff'}">
-            <div v-for="movie in movieList" :key="movie.id">
-              <Card style="height: 220px; margin-bottom: 10px">
-                <p slot="title" style="text-align: left; height: 25px">
-                  <Icon type="ios-film-outline"></Icon>
-                  {{movie.name}}
-                  <Tag :color="statusColor(movie.status)">{{statusParser(movie.status)}}</Tag>
-                </p>
-                <Button
-                  type="primary"
-                  @click="onMovieLike(movie.id)"
-                  slot="extra"
-                  style="margin-right: 20px;"
-                >{{movie.isLike?"已":""}}想看</Button>
-                <Button type="primary" @click="renderMovieDetail(movie.id)" slot="extra">详情</Button>
-                <div
-                  style="text-align:left;float: left; width: 100px;height: 130px; margin-right: 5px"
-                >
-                  <img style="width: 100px;height: 130px;" :src="movie.posterUrl">
-                </div>
-                <div style="width: 750px; text-align: justify;">
-                  <p>{{descriptionCutter(movie.description)}}</p>
-                  <p>
-                    <strong>类型：</strong>
-                    {{movie.movieTypeList.toString().replace(/,/g,'/')}}
-                  </p>
-                  <p>
-                    <strong>导演：</strong>
-                    {{movie.director}}
-                  </p>
-                  <p>
-                    <strong>主演：</strong>
-                    {{movie.starringList.toString().replace(/,/g,'/')}}
-                  </p>
-                </div>
-              </Card>
+  <div style="padding: 24px;">
+    <div v-for="movie in movieList" :key="movie.id">
+      <Card style="margin-bottom: 10px">
+        <div
+          slot="title"
+          style="display: flex; flex-direction:row; align-items: center; text-align: left; height: 40px"
+        >
+          <Icon type="ios-film-outline"></Icon>
+          <div style="margin-left: 10px; margin-right: 10px;">{{movie.name}}</div>
+          <Tag :color="statusColor(movie.status)">{{statusParser(movie.status)}}</Tag>
+          <Button
+            type="primary"
+            @click="onMovieLike(movie.id)"
+            slot="extra"
+            style="margin-right: 20px; margin-left:auto;"
+          >{{movie.isLike?"已":""}}想看</Button>
+          <Button type="primary" @click="renderMovieDetail(movie.id)" slot="extra">详情</Button>
+        </div>
+
+        <Row type="flex">
+          <i-col span="5">
+            <div style="text-align:left; height: 130px; margin-right: 5px">
+              <img style="width: 120px;height: 130px;" :src="movie.posterUrl">
             </div>
-          </Content>
-        </Layout>
-      </i-col>
-    </Row>
+          </i-col>
+          <i-col span="19">
+            <div style="text-align: justify;">
+              <p>{{descriptionCutter(movie.description)}}</p>
+              <p>
+                <strong>类型：</strong>
+                {{movie.movieTypeList.toString().replace(/,/g,'/')}}
+              </p>
+              <p>
+                <strong>导演：</strong>
+                {{movie.director}}
+              </p>
+              <p>
+                <strong>主演：</strong>
+                {{movie.starringList.toString().replace(/,/g,'/')}}
+              </p>
+            </div>
+          </i-col>
+        </Row>
+      </Card>
+    </div>
   </div>
 </template>
 
