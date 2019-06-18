@@ -60,6 +60,13 @@ const api = {
       url: 'GetHallList',
       method: 'get'
     })
+  },
+  GetSeatListByScheduleId: (params) => {
+    return request({
+      url: '/GetSeatListByScheduleId',
+      method: 'get',
+      params
+    })
   }
 }
 
