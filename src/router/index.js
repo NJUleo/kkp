@@ -24,6 +24,11 @@ export default new Router({
       component: Main,
       children: [
         {
+          path: '/',
+          name: 'MovieMain',
+          component: () => import('@/views/MovieMain.vue')
+        },
+        {
           path: 'MovieList',
           name: 'MovieList',
           component: () => import('@/views/MovieList.vue')
@@ -54,9 +59,9 @@ export default new Router({
           component:  () => import('../views/CouponCheck.vue')
         },
         {
-          path: 'OrderCheck',
-          name: 'OrderCheck',
-          component:  () => import('../views/OrderCheck.vue')
+          path: 'MyOrder',
+          name: 'MyOrder',
+          component:  () => import('../views/MyOrder.vue')
         },
       ]
     },

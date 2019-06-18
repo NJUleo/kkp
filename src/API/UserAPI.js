@@ -67,6 +67,13 @@ const api = {
       method: 'get',
       params
     })
+  },
+  BuyTicket: (data) => {
+    return request({
+      url: 'BuyTicket',
+      method: 'post',
+      data
+    })
   }
 }
 

@@ -15,7 +15,7 @@
         </Card>
         <table v-for="seatRow in seatRowList" style="margin: 0 auto">
           <tr>
-            <th v-for="seat in seatRow" :key="seat.col">
+            <th v-for="seat in seatRow" :key="seat.column">
               <img :src="seat.imgSrc" @click="chooseSeat(seat)">
             </th>
           </tr>
@@ -29,13 +29,32 @@
             <p
               style="text-align: center;"
               v-for="seat in seatChosen"
-              :key="seat.row * 100 + seat.col"
-            >{{seat.row}}排 {{seat.col}}列</p>
+              :key="seat.row * 100 + seat.column"
+            >{{seat.row+1}}排 {{seat.column+1}}座</p>
             <i-button
               style="margin-top: 10px;"
               v-bind:disabled="seatChosen.length==0"
               @click="onOrder"
+              v-show="orderState=='noorder'"
             >锁座并下单</i-button>
+            <i-button
+              style="margin-top: 10px;"
+              @click="onPayOrderByCard"
+              v-show="orderState=='locked'"
+              type="info"
+            >银行卡支付</i-button>
+            <i-button
+              style="margin-top: 10px;"
+              @click="onPayOrderByVipCard"
+              v-show="orderState=='locked'"
+              type="info"
+            >会员卡支付</i-button>
+            <i-button
+              style="margin-top: 10px;"
+              @click="onCancelOrder"
+              v-show="orderState=='locked'"
+              type="error"
+            >取消订单</i-button>
           </div>
         </Card>
       </i-col>
@@ -66,7 +85,7 @@ export default {
         [
           {
             row: 0,
-            col: 0,
+            column: 0,
             avaliable: true,
             chosen: false
           }
@@ -74,12 +93,13 @@ export default {
         [
           {
             row: 1,
-            col: 0,
+            column: 0,
             avaliable: false,
             chosen: false
           }
         ]
-      ]
+      ],
+      orderState: "noorder"
     };
   },
   methods: {
@@ -95,14 +115,14 @@ export default {
       }
     },
     chooseSeat(seat) {
+      if (this.orderState != "noorder") return;
       if (seat.avaliable) {
-        console.log(this.seatChosen);
         if (!seat.chosen) {
           this.seatChosen.push(seat);
         } else {
           this.seatChosen.splice(
             this.seatChosen.findIndex(s => {
-              return s.row == seat.row && s.col == seat.col;
+              return s.row == seat.row && s.column == seat.column;
             }),
             1
           );
@@ -111,7 +131,21 @@ export default {
       }
       seat.imgSrc = this.seatState(seat);
     },
-    onOrder() {}
+    onOrder() {
+      console.log(this.seatChosen);
+      userApi
+        .BuyTicket({
+          scheduleId: this.schedule.id,
+          userId: localStorage.getItem("userId"),
+          seatList: this.seatChosen
+        })
+        .then(res => {
+          this.orderState = "locked";
+        });
+    },
+    onPayOrderByCard() {},
+    onPayOrderByVipCard() {},
+    onCancelOrder() {}
   },
   created() {
     this.schedule = JSON.parse(localStorage.getItem("scheduleDetail"));
@@ -121,9 +155,13 @@ export default {
       s.avaliable = false;
       s.imgSrc = this.seatState(s);
       s.chosen = false;
-      s.col = s.column;
       if (seatRows[s.row] == null) seatRows[s.row] = [];
       seatRows[s.row].push(s);
+    });
+    seatRows.forEach(item => {
+      item.sort((a, b) => {
+        return a.column - b.column;
+      });
     });
     userApi
       .GetSeatListByScheduleId({ scheduleId: this.schedule.id })
