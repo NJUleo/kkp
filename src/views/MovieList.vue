@@ -22,6 +22,12 @@
                   {{movie.name}}
                   <Tag :color="statusColor(movie.status)">{{statusParser(movie.status)}}</Tag>
                 </p>
+                <Button
+                  type="primary"
+                  @click="onMovieLike(movie.id)"
+                  slot="extra"
+                  style="margin-right: 20px;"
+                >{{movie.isLike?"已":""}}想看</Button>
                 <Button type="primary" @click="renderMovieDetail(movie.id)" slot="extra">详情</Button>
                 <div
                   style="text-align:left;float: left; width: 100px;height: 130px; margin-right: 5px"
@@ -111,8 +117,25 @@ export default {
         return des.length > 160 ? des.slice(0, 160) + "......" : des;
       return "";
     },
+    onMovieLike: function(movieId) {
+      let movie = this.movieList.find(m => {
+        return m.id == movieId;
+      });
+      let likeData = {
+        userId: localStorage.getItem("userId"),
+        movieId: movie.id
+      };
+      if (movie.isLike)
+        userApi.DeleteLikeMarkByUserIdAndMovieId(likeData).then(res => {
+          movie.isLike = false;
+        });
+      else
+        userApi.InsertLikeMark(likeData).then(res => {
+          movie.isLike = true;
+        });
+    },
     renderMovieDetail: function(movieId) {
-      console.log(movieId);
+      // console.log(movieId);
       let m = this.movieList.find(m => {
         return m.id == movieId;
       });
@@ -129,9 +152,22 @@ export default {
         // console.log(res.data);
         res.data.forEach(movie => {
           if (movie.posterUrl == "") movie.posterUrl = "../../static/haha.jpg";
+          movie.isLike = false;
         });
         _this.movieList = res.data;
         _this.movieTopList = res.data.slice(0, 5);
+        userApi
+          .GetLikeMarkListByUserId({
+            userId: localStorage.getItem("userId")
+          })
+          .then(res => {
+            res.data.forEach(like => {
+              let m = _this.movieList.find(m => {
+                return m.id == like.movieId;
+              });
+              if (m) m.isLike = true;
+            });
+          });
       })
       .catch(err => {
         console.log(err);

@@ -75,7 +75,8 @@ export default {
       userApi
         .VerifyAudience(aud)
         .then(res => {
-          _this.$router.push({ path: "/UserMain/" });
+          localStorage.setItem("userId", res.data.data);
+          _this.$router.push({ path: "/Main/" });
           this.$Message.success("登陆成功!");
         })
         .catch(err => {

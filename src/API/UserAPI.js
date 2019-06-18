@@ -26,6 +26,27 @@ const api = {
       url: '/GetMovieList',
       method: 'get'
     })
+  },
+  GetLikeMarkListByUserId: (params) => {
+    return request({
+      url: '/GetLikeMarkListByUserId',
+      method: 'get',
+      params
+    })
+  },
+  InsertLikeMark: (data) => {
+    return request({
+      url: '/InsertLikeMark',
+      method: 'post',
+      data
+    })
+  },
+  DeleteLikeMarkByUserIdAndMovieId: (params) => {
+    return request({
+      url: '/DeleteLikeMarkByUserIdAndMovieId',
+      method: 'get',
+      params
+    })
   }
 }
 
