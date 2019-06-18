@@ -48,7 +48,7 @@
               </p>
               <p>
                 <strong>类型：</strong>
-                {{movieDetail.type.toString().replace(/,/g,'/')}}
+                {{movieDetail.movieTypeList.toString().replace(/,/g,'/')}}
               </p>
               <p>
                 <strong>导演：</strong>
@@ -56,7 +56,7 @@
               </p>
               <p>
                 <strong>主演：</strong>
-                {{movieDetail.starring.toString().replace(/,/g,'/')}}
+                {{movieDetail.starringList.toString().replace(/,/g,'/')}}
               </p>
             </div>
           </i-col>
@@ -357,7 +357,7 @@ export default {
     },
     buyMovieTicket: function(movieId) {
       console.log("cnm");
-      this.$router.push({ path: "UserMovieDetail" });
+      this.$router.push({ path: "MovieDetail" });
     }
   }
 };
