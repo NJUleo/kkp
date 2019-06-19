@@ -55,6 +55,12 @@
               v-show="orderState=='locked'"
               type="error"
             >取消订单</i-button>
+            <i-button
+              style="margin-top: 10px;"
+              disabled
+              v-show="orderState=='success'"
+              type="success"
+            >支付成功</i-button>
           </div>
         </Card>
       </i-col>
