@@ -1,6 +1,6 @@
 <template>
-  <div style="margin: 30px 20px 30px 20px;">
-    <Card v-for="order in orderList" :key="order.id" style="text-align: left;">
+  <div style="margin: 40px 40px 30px 40px;">
+    <Card v-for="order in orderList" :key="order.id" style="text-align: left; margin-bottom: 30px;">
       <div slot="title">
         <Row type="flex" style="align-items: center;">
           <i-col>
