@@ -74,6 +74,27 @@ const api = {
       method: 'post',
       data
     })
+  },
+  CancelOrder: (orderId) => {
+    return request({
+      url: 'CancelOrder',
+      method: 'get',
+      params: { orderId }
+    })
+  },
+  PayOrder: (orderId) => {
+    return request({
+      url: 'PayOrder',
+      method: 'get',
+      params: { orderId }
+    })
+  },
+  GetUserVipCard: (userId) => {
+    return request({
+      url: 'GetUserVipCard',
+      method: 'get',
+      params: { userId }
+    })
   }
 }
 

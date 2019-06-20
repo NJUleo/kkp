@@ -31,7 +31,10 @@
               v-for="seat in seatChosen"
               :key="seat.row * 100 + seat.column"
             >{{seat.row+1}}排 {{seat.column+1}}座</p>
-            <p v-show="seatChosen.length!=0" style="margin-top: 20px; color: grey;">下单后自动锁座</p>
+            <p
+              v-show="seatChosen.length!=0 && orderState=='noorder'"
+              style="margin-top: 20px; color: grey;"
+            >下单后自动锁座</p>
             <i-button
               style="margin-top: 10px;"
               v-bind:disabled="seatChosen.length==0"
@@ -43,9 +46,14 @@
               style="margin-top: 10px;"
               v-bind:disabled="seatChosen.length==0"
               @click="onOrder('VipCard')"
-              v-show="orderState=='noorder'"
+              v-show="orderState=='noorder' && hasVipCard==true"
               type="warning"
             >会员卡下单</i-button>
+            <p
+              v-show="orderState=='locked'"
+              style="margin-top: 30px;"
+            >您选择了 {{payType=="BankCard"?'银行卡':'会员卡'}} 支付</p>
+            <p v-show="orderState=='locked'">您需要支付 {{moneyToPay}} 元</p>
             <i-button
               style="margin-top: 10px;"
               @click="onPay"
@@ -89,26 +97,11 @@ export default {
         endTime: "2019/1/3",
         price: "50"
       },
-      colNum: 2,
-      seatRowList: [
-        [
-          {
-            row: 0,
-            column: 0,
-            avaliable: true,
-            chosen: false
-          }
-        ],
-        [
-          {
-            row: 1,
-            column: 0,
-            avaliable: false,
-            chosen: false
-          }
-        ]
-      ],
-      orderState: "noorder"
+      seatRowList: [],
+      hasVipCard: false,
+      orderState: "noorder",
+      payType: "VipCard",
+      moneyToPay: 200
     };
   },
   methods: {
@@ -150,11 +143,25 @@ export default {
           payment: payType
         })
         .then(res => {
+          this.orderId = res.data.id;
+          this.payType = res.data.payment;
+          this.moneyToPay = res.data.money;
           this.orderState = "locked";
         });
     },
-    onPayOrder() {},
-    onCancelOrder() {}
+    onPay() {
+      userApi.PayOrder(this.orderId).then(res => {
+        this.orderState = "success";
+      });
+    },
+    onCancelOrder() {
+      let _this = this;
+      userApi.CancelOrder(this.orderId).then(res => {
+        _this.seatChosen.forEach(s => {
+          _this.chooseSeat(s);
+        });
+      });
+    }
   },
   created() {
     this.schedule = JSON.parse(localStorage.getItem("scheduleDetail"));
@@ -183,6 +190,9 @@ export default {
           s.imgSrc = this.seatState(s);
         });
       });
+    userApi.GetUserVipCard(localStorage.getItem("userId")).then(res => {
+      this.hasVipCard = true;
+    });
   }
 };
 </script>
