@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import userApi from "../api/UserApi"
 export default {
   name: "MyOrder",
   data() {
@@ -53,6 +54,9 @@ export default {
     onPayOrder(orderId) {},
     onCancelOrder(orderId) {},
     onRefundOrder(orderId) {}
+  },
+  created() {
+    // userApi.GetOrderByUserId;
   }
 };
 </script>

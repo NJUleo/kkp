@@ -95,6 +95,15 @@ const api = {
       method: 'get',
       params: { userId }
     })
+  },
+  InsertUserVipCard: (userId) => {
+    return request({
+      url: 'InsertUserVipCard',
+      method: 'post',
+      data: {
+        userId
+      }
+    })
   }
 }
 

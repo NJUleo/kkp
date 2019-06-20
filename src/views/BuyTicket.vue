@@ -143,6 +143,7 @@ export default {
           payment: payType
         })
         .then(res => {
+          this.$Message.success("下单成功！已锁座");
           this.orderId = res.data.id;
           this.payType = res.data.payment;
           this.moneyToPay = res.data.money;
@@ -151,15 +152,15 @@ export default {
     },
     onPay() {
       userApi.PayOrder(this.orderId).then(res => {
+        this.$Message.success("支付成功!");
         this.orderState = "success";
       });
     },
     onCancelOrder() {
       let _this = this;
       userApi.CancelOrder(this.orderId).then(res => {
-        _this.seatChosen.forEach(s => {
-          _this.chooseSeat(s);
-        });
+        this.$Message.success("已取消订单!");
+        _this.orderState = "noorder";
       });
     }
   },
@@ -191,7 +192,9 @@ export default {
         });
       });
     userApi.GetUserVipCard(localStorage.getItem("userId")).then(res => {
-      this.hasVipCard = true;
+      // 确认是否有会员卡
+      console.log(res);
+      if (res.data.data != null) this.hasVipCard = true;
     });
   }
 };
