@@ -10,8 +10,16 @@
           </i-col>
           <i-col style="margin-left: auto">
             <Button v-show="order.status=='unpaid'" type="info" @click="onPayOrder(order.id)">支付订单</Button>
-            <Button v-show="order.status=='paid'" type="warning" @click="onRefundOrder(order.id)">申请退款</Button>
-            <Button v-show="order.status=='unpaid'" type="error" @click="onCancelOrder(order.id)">取消订单</Button>
+            <Button
+              v-show="order.status=='paid'"
+              type="warning"
+              @click="onRefundOrder(order.id)"
+            >申请退款</Button>
+            <Button
+              v-show="order.status=='unpaid'"
+              type="error"
+              @click="onCancelOrder(order.id)"
+            >取消订单</Button>
           </i-col>
         </Row>
       </div>
@@ -23,7 +31,7 @@
 </template>
 
 <script>
-import userApi from "../api/UserApi"
+import userApi from "../api/UserApi";
 export default {
   name: "MyOrder",
   data() {
@@ -43,9 +51,7 @@ export default {
           id: 2,
           title: "会员卡",
           status: "paid",
-          data: [
-            "充值金额: 100元"
-          ]
+          data: ["充值金额: 100元"]
         }
       ]
     };
@@ -56,7 +62,9 @@ export default {
     onRefundOrder(orderId) {}
   },
   created() {
-    // userApi.GetOrderByUserId;
+    userApi.GetOrderByUserId(localStorage.getItem("userId")).then(res => {
+      console.log(res);
+    });
   }
 };
 </script>

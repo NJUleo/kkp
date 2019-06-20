@@ -75,6 +75,13 @@ const api = {
       data
     })
   },
+  GetOrderByUserId: (userId) => {
+    return request({
+      url: 'GetOrderByUserId',
+      method: 'get',
+      params: { userId }
+    })
+  },
   CancelOrder: (orderId) => {
     return request({
       url: 'CancelOrder',
