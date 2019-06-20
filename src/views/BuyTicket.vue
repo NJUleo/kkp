@@ -152,8 +152,9 @@ export default {
     },
     onPay() {
       userApi.PayOrder(this.orderId).then(res => {
-        this.$Message.success("支付成功!");
+        this.$Message.success("支付成功！前往您的订单");
         this.orderState = "success";
+        this.$router.push({ path: "MyOrder" });
       });
     },
     onCancelOrder() {

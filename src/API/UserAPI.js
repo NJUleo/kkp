@@ -96,6 +96,7 @@ const api = {
       params: { orderId }
     })
   },
+  
   GetUserVipCard: (userId) => {
     return request({
       url: 'GetUserVipCard',

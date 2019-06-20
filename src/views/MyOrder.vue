@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 40px 40px 30px 40px;">
+  <div style="margin: 50px auto; width: 650px;">
     <Card v-for="order in orderList" :key="order.id" style="text-align: left; margin-bottom: 30px;">
       <div slot="title">
         <Row type="flex" style="align-items: center;">
@@ -9,17 +9,23 @@
             </div>
           </i-col>
           <i-col style="margin-left: auto">
-            <Button v-show="order.status=='unpaid'" type="info" @click="onPayOrder(order.id)">支付订单</Button>
+            <Button v-show="order.status=='Unpaid'" type="info" @click="onPayOrder(order.id)">支付订单</Button>
             <Button
-              v-show="order.status=='paid'"
+              v-show="order.status=='Complete'"
               type="warning"
               @click="onRefundOrder(order.id)"
-            >申请退款</Button>
+            >点击退款</Button>
             <Button
-              v-show="order.status=='unpaid'"
+              v-show="order.status=='Unpaid'"
               type="error"
               @click="onCancelOrder(order.id)"
             >取消订单</Button>
+            <Button
+              v-show="order.status=='Fail'"
+              disabled
+              type="error"
+              @click="onCancelOrder(order.id)"
+            >订单已取消</Button>
           </i-col>
         </Row>
       </div>
@@ -40,7 +46,7 @@ export default {
         {
           id: 1,
           title: "buy ticket",
-          status: "unpaid",
+          status: "Unpaid",
           data: [
             "hall: 5th hall",
             "begin time: 2019.6.10 15:00",
@@ -50,20 +56,48 @@ export default {
         {
           id: 2,
           title: "会员卡",
-          status: "paid",
+          status: "Complete",
           data: ["充值金额: 100元"]
         }
       ]
     };
   },
   methods: {
-    onPayOrder(orderId) {},
-    onCancelOrder(orderId) {},
+    onPayOrder(orderId) {
+      userApi.PayOrder(orderId).then(res => {
+        let order = this.orderList.find(o => {
+          return o.id == orderId;
+        });
+        if (order) order.status = "Complete";
+      });
+    },
+    onCancelOrder(orderId) {
+      userApi.CancelOrder(orderId).then(res => {
+        let order = this.orderList.find(o => {
+          return o.id == orderId;
+        });
+        if (order) order.status = "Fail"
+      });
+    },
     onRefundOrder(orderId) {}
   },
   created() {
     userApi.GetOrderByUserId(localStorage.getItem("userId")).then(res => {
-      console.log(res);
+      console.log(res.data);
+      res.data.forEach(o => {
+        switch (o.type) {
+          case "Ticket":
+            o.title = "电影票购买";
+            let ticketIdList = o.data.split(" ");
+            o.data = ticketIdList;
+            break;
+          case "Charge":
+            o.title = "会员卡充值";
+            o.data = [o.data];
+            break;
+        }
+      });
+      this.orderList = res.data;
     });
   }
 };
