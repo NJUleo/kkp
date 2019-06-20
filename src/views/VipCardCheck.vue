@@ -9,14 +9,20 @@
     </Card>
     <Card v-show="hasVipCard == true" style="width: 800px; margin: auto;">
       <div slot="title">您的会员卡</div>
-      <Row type="flex" style="margin: 20px 15% 20px 15%; text-align: left; align-items: flex-end;">
+      <Row type="flex" style="margin: 20px 15% 20px 15%; text-align: left; align-items: center;">
         <i-col span="20">
-          <div>余额: {{balance}} 元</div>
-          <div>会员卡等级: {{levelDetail}}</div>
-          <div>会员卡折扣: {{discount * 10}} 折</div>
+          <div style="margin-bottom: 20px;">余额: {{balance}} 元</div>
+          <div style="margin-bottom: 20px;">会员卡等级: {{levelDetail}}</div>
+          <div style="margin-bottom: 20px;">会员卡折扣: {{discount * 10}} 折</div>
         </i-col>
         <i-col span="4">
-          <Button type="info">充值</Button>
+          <RadioGroup v-model="chargeMoney" style="padding-bottom: 20px;" vertical>
+            <Radio label="20">20元</Radio>
+            <Radio label="50">50元</Radio>
+            <Radio label="100">100元</Radio>
+            <Radio label="200">200元</Radio>
+          </RadioGroup>
+          <Button type="info" @click="onCharge">充值</Button>
         </i-col>
       </Row>
     </Card>
@@ -32,7 +38,8 @@ export default {
       hasVipCard: null,
       balance: 0,
       levelDetail: "铁卡",
-      discount: 0.9
+      discount: 0.9,
+      chargeMoney: 0
     };
   },
   methods: {
@@ -45,12 +52,20 @@ export default {
         });
         this.hasVipCard = true;
       });
+    },
+    onCharge() {
+      let money = this.chargeMoney;
+      userApi.ChargeVipCard(localStorage.getItem("userId"), money).then(res => {
+        this.$Message.success("充值成功, 金额 " + money + " 元");
+      });
     }
   },
   created() {
     userApi.GetUserVipCard(localStorage.getItem("userId")).then(res => {
       this.hasVipCard = res.data.data != null;
-      console.log(res.data.data);
+      this.balance = res.data.data.balance;
+      this.discount = res.data.data.discount;
+      this.levelDetail = res.data.data.levelDetails;
     });
   }
 };

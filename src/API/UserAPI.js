@@ -75,6 +75,16 @@ const api = {
       data
     })
   },
+  ChargeVipCard: (userId, money) => {
+    return request({
+      url: "ChargeVipCard",
+      method: 'get',
+      params: {
+        userId,
+        money
+      }
+    })
+  },
   GetOrderByUserId: (userId) => {
     return request({
       url: 'GetOrderByUserId',
@@ -96,7 +106,6 @@ const api = {
       params: { orderId }
     })
   },
-  
   GetUserVipCard: (userId) => {
     return request({
       url: 'GetUserVipCard',

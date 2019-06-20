@@ -30,6 +30,7 @@
         </Row>
       </div>
       <div style="margin: 15px;">
+        <div style="margin-bottom: 20px;">订单时间： {{order.orderTime | dateformat('YYYY年MM月DD日 HH时mm分')}}</div>
         <div v-for="item in order.data">{{item}}</div>
       </div>
     </Card>
@@ -76,14 +77,19 @@ export default {
         let order = this.orderList.find(o => {
           return o.id == orderId;
         });
-        if (order) order.status = "Fail"
+        if (order) order.status = "Fail";
       });
     },
-    onRefundOrder(orderId) {}
+    onRefundOrder(orderId) {
+      // TODO: 
+    }
   },
   created() {
     userApi.GetOrderByUserId(localStorage.getItem("userId")).then(res => {
       console.log(res.data);
+      res.data.sort((a, b) => {
+        return a.orderTime < b.orderTime ? 1 : -1;
+      });
       res.data.forEach(o => {
         switch (o.type) {
           case "Ticket":
