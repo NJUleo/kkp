@@ -30,7 +30,9 @@
         </Row>
       </div>
       <div style="margin: 15px;">
-        <div style="margin-bottom: 20px;">订单时间： {{order.orderTime | dateformat('YYYY年MM月DD日 HH时mm分')}}</div>
+        <div
+          style="margin-bottom: 20px;"
+        >订单时间： {{order.orderTime | dateformat('YYYY年MM月DD日 HH时mm分')}}</div>
         <div v-for="item in order.data">{{item}}</div>
       </div>
     </Card>
@@ -66,6 +68,7 @@ export default {
   methods: {
     onPayOrder(orderId) {
       userApi.PayOrder(orderId).then(res => {
+        this.$Message.success("支付成功!");
         let order = this.orderList.find(o => {
           return o.id == orderId;
         });
@@ -74,6 +77,7 @@ export default {
     },
     onCancelOrder(orderId) {
       userApi.CancelOrder(orderId).then(res => {
+        this.$Message.success("订单取消成功!");
         let order = this.orderList.find(o => {
           return o.id == orderId;
         });
@@ -81,7 +85,13 @@ export default {
       });
     },
     onRefundOrder(orderId) {
-      // TODO: 
+      userApi.QuitOrder(orderId).then(res => {
+        this.$Message.success("退款成功!");
+        let order = this.orderList.find(o => {
+          return o.id == orderId;
+        });
+        if (order) order.status = "Fail";
+      });
     }
   },
   created() {

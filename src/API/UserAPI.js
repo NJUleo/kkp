@@ -121,6 +121,15 @@ const api = {
         userId
       }
     })
+  },
+  QuitOrder: (orderId) => {
+    return request({
+      url: 'QuitOrder',
+      method: 'get',
+      params: {
+        orderId
+      }
+    })
   }
 }
 
