@@ -17,12 +17,25 @@
         </i-col>
         <i-col span="4">
           <RadioGroup v-model="chargeMoney" style="padding-bottom: 20px;" vertical>
-            <Radio label="20">20元</Radio>
-            <Radio label="50">50元</Radio>
-            <Radio label="100">100元</Radio>
-            <Radio label="200">200元</Radio>
+            <Radio :disabled="orderStatus!='noorder'" label="20">20元</Radio>
+            <Radio :disabled="orderStatus!='noorder'" label="50">50元</Radio>
+            <Radio :disabled="orderStatus!='noorder'" label="100">100元</Radio>
+            <Radio :disabled="orderStatus!='noorder'" label="200">200元</Radio>
           </RadioGroup>
-          <Button type="info" @click="onCharge">充值</Button>
+          <Button
+            type="info"
+            :disabled="chargeMoney==0"
+            v-show="orderStatus=='noorder'"
+            @click="onCharge"
+          >充值</Button>
+          <Button
+            type="warning"
+            style="margin-bottom: 20px;"
+            v-show="orderStatus=='unpaid'"
+            @click="onPay"
+          >支付</Button>
+          <Button type="error" v-show="orderStatus=='unpaid'" @click="onCancel">取消订单</Button>
+          <Button type="info" disabled v-show="orderStatus=='paid'" @click="onCancel">支付成功</Button>
         </i-col>
       </Row>
     </Card>
@@ -39,7 +52,8 @@ export default {
       balance: 0,
       levelDetail: "铁卡",
       discount: 0.9,
-      chargeMoney: 0
+      chargeMoney: 0,
+      orderStatus: "noorder"
     };
   },
   methods: {
@@ -54,9 +68,29 @@ export default {
       });
     },
     onCharge() {
-      let money = this.chargeMoney;
-      userApi.ChargeVipCard(localStorage.getItem("userId"), money).then(res => {
-        this.$Message.success("充值成功, 金额 " + money + " 元");
+      this.money = this.chargeMoney;
+      userApi
+        .ChargeVipCard(localStorage.getItem("userId"), this.money)
+        .then(res => {
+          this.$Message.success("订单提交成功, 金额 " + this.money + " 元");
+          this.orderStatus = "unpaid";
+          this.orderId = res.data.data;
+        });
+    },
+    onPay() {
+      userApi.PayOrder(this.orderId).then(res => {
+        this.$Message.success(
+          "充值成功, 金额 " + this.money + " 元，前往订单页面"
+        );
+        this.orderStatus = "paid";
+        this.balance += this.money;
+        this.$router.push({ path: "MyOrder" });
+      });
+    },
+    onCancel() {
+      userApi.CancelOrder(this.orderId).then(res => {
+        this.$Message.success("订单取消！");
+        this.orderStatus = "noorder";
       });
     }
   },
