@@ -31,24 +31,27 @@
               v-for="seat in seatChosen"
               :key="seat.row * 100 + seat.column"
             >{{seat.row+1}}排 {{seat.column+1}}座</p>
+            <p v-show="seatChosen.length!=0" style="margin-top: 20px; color: grey;">下单后自动锁座</p>
             <i-button
               style="margin-top: 10px;"
               v-bind:disabled="seatChosen.length==0"
-              @click="onOrder"
+              @click="onOrder('BankCard')"
               v-show="orderState=='noorder'"
-            >锁座并下单</i-button>
+              type="info"
+            >银行卡下单</i-button>
             <i-button
               style="margin-top: 10px;"
-              @click="onPayOrderByCard"
-              v-show="orderState=='locked'"
-              type="info"
-            >银行卡支付</i-button>
+              v-bind:disabled="seatChosen.length==0"
+              @click="onOrder('VipCard')"
+              v-show="orderState=='noorder'"
+              type="warning"
+            >会员卡下单</i-button>
             <i-button
               style="margin-top: 10px;"
-              @click="onPayOrderByVipCard"
+              @click="onPay"
               v-show="orderState=='locked'"
               type="info"
-            >会员卡支付</i-button>
+            >支付</i-button>
             <i-button
               style="margin-top: 10px;"
               @click="onCancelOrder"
@@ -137,20 +140,20 @@ export default {
       }
       seat.imgSrc = this.seatState(seat);
     },
-    onOrder() {
+    onOrder(payType) {
       console.log(this.seatChosen);
       userApi
         .BuyTicket({
           scheduleId: this.schedule.id,
           userId: localStorage.getItem("userId"),
-          seatList: this.seatChosen
+          seatList: this.seatChosen,
+          payment: payType
         })
         .then(res => {
           this.orderState = "locked";
         });
     },
-    onPayOrderByCard() {},
-    onPayOrderByVipCard() {},
+    onPayOrder() {},
     onCancelOrder() {}
   },
   created() {
@@ -172,6 +175,7 @@ export default {
     userApi
       .GetSeatListByScheduleId({ scheduleId: this.schedule.id })
       .then(res => {
+        // console.log(res.data);
         this.seatRowList = seatRows;
         res.data.forEach(vc => {
           let s = this.seatRowList[vc.row][vc.column];
