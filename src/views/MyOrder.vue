@@ -30,6 +30,7 @@
         </Row>
       </div>
       <div style="margin: 15px;">
+        <div>支付方式： {{order.payment=='BankCard'?'银行卡':'会员卡'}}</div>
         <div
           style="margin-bottom: 20px;"
         >订单时间： {{order.orderTime | dateformat('YYYY年MM月DD日 HH时mm分')}}</div>
@@ -95,12 +96,13 @@ export default {
     }
   },
   created() {
-    userApi.GetOrderByUserId(localStorage.getItem("userId")).then(res => {
-      console.log(res.data);
-      res.data.sort((a, b) => {
+    // 获取订单信息
+    userApi.GetOrderByUserId(localStorage.getItem("userId")).then(orderRes => {
+      console.log("所有订单信息", orderRes.data);
+      orderRes.data.sort((a, b) => {
         return a.orderTime < b.orderTime ? 1 : -1;
       });
-      res.data.forEach(o => {
+      orderRes.data.forEach(o => {
         switch (o.type) {
           case "Ticket":
             o.title = "电影票购买";
@@ -113,7 +115,10 @@ export default {
             break;
         }
       });
-      this.orderList = res.data;
+      userApi.GetTicketList(localStorage.getItem("userId")).then(ticketRes => {
+        console.log("所有观影票信息", ticketRes.data);
+        this.orderList = orderRes.data;
+      });
     });
   }
 };

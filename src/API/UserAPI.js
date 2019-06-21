@@ -130,6 +130,24 @@ const api = {
         orderId
       }
     })
+  },
+  GetCouponByUserId: (userId) => {
+    return request({
+      url: 'GetCouponByUserId',
+      method: 'get',
+      params: {
+        userId
+      }
+    })
+  },
+  GetTicketList: (userId) => {
+    return request({
+      url: 'GetTicketList',
+      method: 'get',
+      params: {
+        userId
+      }
+    })
   }
 }
 
