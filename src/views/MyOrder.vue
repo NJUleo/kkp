@@ -26,6 +26,12 @@
               type="error"
               @click="onCancelOrder(order.id)"
             >订单已取消</Button>
+            <Button
+              v-show="order.status=='Refund'"
+              disabled
+              type="error"
+              @click="onCancelOrder(order.id)"
+            >已退款</Button>
           </i-col>
         </Row>
       </div>
@@ -92,7 +98,7 @@ export default {
         let order = this.orderList.find(o => {
           return o.id == orderId;
         });
-        if (order) order.status = "Fail";
+        if (order) order.status = "Refund";
       });
     }
   },
