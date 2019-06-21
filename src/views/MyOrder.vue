@@ -122,7 +122,7 @@ export default {
             let info = o.data.split(" ");
             info[0] = "当前会员卡等级： " + info[0];
             info[1] = "充值金额： " + info[1];
-            o.data = info;
+            o.data = [info[1]];
             break;
         }
       });
