@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import userApi from "../api/UserApi";
 export default {
   name: "MyOrder",
@@ -96,6 +97,7 @@ export default {
     }
   },
   created() {
+    let _this = this;
     // 获取订单信息
     userApi.GetOrderByUserId(localStorage.getItem("userId")).then(orderRes => {
       console.log("所有订单信息", orderRes.data);
@@ -111,13 +113,54 @@ export default {
             break;
           case "Charge":
             o.title = "会员卡充值";
-            o.data = [o.data];
+            let info = o.data.split(" ");
+            info[0] = "当前会员卡等级： " + info[0];
+            info[1] = "充值金额： " + info[1];
+            o.data = info;
             break;
         }
       });
+      // 获取影票
       userApi.GetTicketList(localStorage.getItem("userId")).then(ticketRes => {
         console.log("所有观影票信息", ticketRes.data);
-        this.orderList = orderRes.data;
+        userApi.GetSuperScheduleList().then(scheduleRes => {
+          console.log("排片信息", scheduleRes.data);
+          orderRes.data.forEach(o => {
+            if (o.type != "Ticket") return;
+            let tIdList = o.data;
+            let sId = [];
+            let sch = null;
+            for (let i = 0; i < tIdList.length; i++) {
+              let tId = tIdList[i];
+              let ticket = ticketRes.data.find(t => {
+                return t.ticketId == tId;
+              });
+              if (ticket) {
+                sch = scheduleRes.data.find(s => {
+                  return s.schedule.id == ticket.scheduleId;
+                });
+                if (sch)
+                  tIdList[i] =
+                    "第" + ticket.row + "行，第" + ticket.column + "列";
+              }
+            }
+            if (sch)
+              tIdList.unshift(
+                "影厅：" + sch.hallName,
+                "开始时间： " +
+                  moment(sch.schedule.startTime).format(
+                    "YYYY年MM月DD日 HH时mm分"
+                  ),
+                "结束时间： " +
+                  moment(sch.schedule.endTime).format(
+                    "YYYY年MM月DD日 HH时mm分"
+                  ),
+                "-",
+                "座位列表： "
+              );
+          });
+          _this.orderList = orderRes.data;
+        });
       });
     });
   }

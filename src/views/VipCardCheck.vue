@@ -17,10 +17,10 @@
         </i-col>
         <i-col span="4">
           <RadioGroup v-model="chargeMoney" style="padding-bottom: 20px;" vertical>
-            <Radio :disabled="orderStatus!='noorder'" label="20">20元</Radio>
-            <Radio :disabled="orderStatus!='noorder'" label="50">50元</Radio>
-            <Radio :disabled="orderStatus!='noorder'" label="100">100元</Radio>
             <Radio :disabled="orderStatus!='noorder'" label="200">200元</Radio>
+            <Radio :disabled="orderStatus!='noorder'" label="500">500元</Radio>
+            <Radio :disabled="orderStatus!='noorder'" label="1000">1000元</Radio>
+            <Radio :disabled="orderStatus!='noorder'" label="2000">2000元</Radio>
           </RadioGroup>
           <Button
             type="info"

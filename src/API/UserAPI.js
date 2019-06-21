@@ -148,6 +148,12 @@ const api = {
         userId
       }
     })
+  },
+  GetSuperScheduleList: ()=>{
+    return request({
+      url: 'GetSuperScheduleList',
+      method: 'get'
+    })
   }
 }
 
