@@ -37,6 +37,7 @@
       </div>
       <div style="margin: 15px;">
         <div>支付方式： {{order.payment=='BankCard'?'银行卡':'会员卡'}}</div>
+        <div>支付金额： {{order.money}}</div>
         <div
           style="margin-bottom: 20px;"
         >订单时间： {{order.orderTime | dateformat('YYYY年MM月DD日 HH时mm分')}}</div>
